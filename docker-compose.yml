@@ -1,28 +1,15 @@
 version: '3.8'
 
 services:
-  zookeeper:
-    image: bitnami/zookeeper:latest
-    container_name: zookeeper
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
-    ports:
-      - "2181:2181"
-
   kafka:
     image: bitnami/kafka:latest
     container_name: kafka
     environment:
-      - KAFKA_MODE=raft
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_LISTENER_SECURITY_PROTOCOL=PLAINTEXT
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
+      - KAFKA_MODE=raft  # Modo Raft
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL=PLAINTEXT  # Protocolo de segurança
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT  # Mapeamento de protocolo
       - KAFKA_LISTENER_NAME_DEFAULT=PLAINTEXT
       - KAFKA_LISTENER_PORT=9092
+      - ALLOW_PLAINTEXT_LISTENER=yes  # Permite conexões sem segurança
     ports:
       - "9092:9092"
-    depends_on:
-      - zookeeper
-
